@@ -1,0 +1,7 @@
+0.  Longest word in the dictionary with 45 characters
+1.  TODO
+2.  TODO
+3.  TODO
+4.  TODO
+5.  fscanf doesn't accept non-alphanumeric characters like spaces & punctuatioons
+6.  to prevent changing their values passed to check & load

@@ -1,0 +1,552 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"rec",
+				"recovered_jpeg"
+			],
+			[
+				"R",
+				"recovered"
+			],
+			[
+				"cop",
+				"copied"
+			],
+			[
+				"reco",
+				"recovered"
+			],
+			[
+				"recover",
+				"recover_jpeg"
+			],
+			[
+				"siz",
+				"sizeof"
+			],
+			[
+				"new",
+				"new_jpeg"
+			],
+			[
+				"is",
+				"is_new_jpeg"
+			],
+			[
+				"si",
+				"sizeof"
+			],
+			[
+				"h",
+				"header"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"sma",
+				"small_padding"
+			],
+			[
+				"fsm",
+				"fsmall"
+			],
+			[
+				"flarge",
+				"flarge_height"
+			],
+			[
+				"RGBTR",
+				"RGBTRI"
+			],
+			[
+				"size",
+				"size"
+			],
+			[
+				"fsmall",
+				"fsmall"
+			],
+			[
+				"RGB",
+				"RGBTRI"
+			],
+			[
+				"rgb",
+				"RGBTRI"
+			],
+			[
+				"fsma",
+				"fsmall_height"
+			],
+			[
+				"bi",
+				"biHeight"
+			],
+			[
+				"large",
+				"large_bi"
+			],
+			[
+				"allo",
+				"allocate"
+			],
+			[
+				"a",
+				"array"
+			],
+			[
+				"small",
+				"small_width"
+			],
+			[
+				"larg",
+				"large_tri"
+			],
+			[
+				"small_",
+				"small_width"
+			],
+			[
+				"BM",
+				"BMPIH"
+			],
+			[
+				"res",
+				"resize"
+			],
+			[
+				"W",
+				"Werror"
+			],
+			[
+				"sc",
+				"section\tTag"
+			],
+			[
+				"code",
+				"codebloks"
+			],
+			[
+				"curr",
+				"currencycode"
+			],
+			[
+				"fa",
+				"false"
+			],
+			[
+				"na",
+				"nairaprice"
+			],
+			[
+				"swiss",
+				"swissgolden"
+			],
+			[
+				"vp",
+				"vp-20"
+			],
+			[
+				"form",
+				"form-control"
+			],
+			[
+				"te",
+				"text-center"
+			],
+			[
+				"hp-",
+				"hp-20"
+			],
+			[
+				"me",
+				"message_subject-addon"
+			],
+			[
+				"messa",
+				"message_subject-addon"
+			],
+			[
+				"input",
+				"input-group"
+			],
+			[
+				"inp",
+				"input-group"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"paddi",
+				"padding-top"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"email",
+				"emailfooter"
+			],
+			[
+				"th",
+				"th\tTag"
+			],
+			[
+				"max-",
+				"max-width"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "Packages/C++/C++ Single File.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 444.0
+	},
+	"console":
+	{
+		"height": 112.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-recover/recover.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-recover/temp.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-recover/Makefile",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/resize.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-recover/jpeg.h",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/bmp.h",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/resize.c",
+		"/home/chumaumenze/.config/sublime-text-3/Packages/Terminal/Terminal.sublime-settings",
+		"/home/chumaumenze/.config/sublime-text-3/Packages/User/Terminal.sublime-settings",
+		"/home/chumaumenze/Documents/projects/cs50/submit50/pset4/more/temp.c",
+		"/home/chumaumenze/Documents/projects/cs50/submit50/pset4/more/resize.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/Makefile",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/temp.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/new.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/bmp.h",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/li.bmp",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize-more/smiley.bmp",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/copy.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/Makefile",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/temp.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-resize/new.c",
+		"/home/chumaumenze/Documents/projects/cs50/projects/problems-whodunit/questions.txt",
+		"/home/chumaumenze/Documents/hosts",
+		"/home/chumaumenze/Documents/hosts3.txt",
+		"/home/chumaumenze/Documents/hosts2",
+		"/home/chumaumenze/Documents/Hosts.sex",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_layouts/compress.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_layouts/post.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_pages/404.md",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_includes/svg-icons.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/_sass/_bootstrap.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/javascripts/bootstrap.min.js",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/_sass/style.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/_sass/_bootstrap-mincer.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/_sass/_bootstrap-sprockets.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/_sass/_bootstrap-compass.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/stylesheets/_bootstrap.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/assets/stylesheets/_bootstrap-sprockets.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_includes/head.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_includes/meta.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_layouts/default.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_layouts/page.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/about.md",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/index.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_config.yml",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/style.scss",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_includes/disqus.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/_includes/analytics.html",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/README.md",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/CNAME",
+		"/home/chumaumenze/Documents/chumaumenze.github.io/LICENSE",
+		"/home/chumaumenze/Downloads/IMG_20170519_164859.txt",
+		"/home/chumaumenze/.config/sublime-text-3/Packages/User/Terminal (Linux).sublime-settings",
+		"/home/chumaumenze/Documents/blog posts/Computational Complexity- Understanding the Big O Notation.md",
+		"/home/chumaumenze/quotes.php",
+		"/home/chumaumenze/functions.php",
+		"/home/chumaumenze/messages.php",
+		"/media/chumaumenze/E0A06715A066F188/xampp/htdocs/wordpress/wp-content/themes/swissgolden/templates/messages.php",
+		"/media/chumaumenze/E0A06715A066F188/xampp/htdocs/wordpress/wp-content/themes/swissgolden/functions.php",
+		"/home/chumaumenze/.config/sublime-text-3/Packages/Package Control/Package Control.sublime-settings",
+		"/media/chumaumenze/E0A06715A066F188/xampp/htdocs/wordpress/wp-content/themes/swissgolden/templates/quotes.php",
+		"/home/chumaumenze/footer.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/functions.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/contact.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/quotes.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/messages.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/login.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/register.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/header.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/about.php",
+		"/var/www/html/wordpress/wp-config.php",
+		"/media/chumaumenze/E0A06715A066F188/Users/jsaunders/Desktop/web/final.html",
+		"/media/chumaumenze/E0A06715A066F188/Users/jsaunders/Desktop/web/mail_body2.html",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/footer.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/template-parts/navigation/navigation-top.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/template-parts/footer/footer-widgets.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/search.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/page.php",
+		"/media/chumaumenze/E0A06715A066F188/Users/jsaunders/Desktop/web/mail_parts.php",
+		"/var/www/html/mail/mail_body.html",
+		"/home/chumaumenze/Documents/projects/cs50/submit50/pset2/crack/crack.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find2/find.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find2/helpers.h",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find2/generate.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find2/helpers.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find/helpers.h",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find/helpers.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find/generate.c",
+		"/home/chumaumenze/Documents/Projects/CS50/projects/problems-find/find.c",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/message",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/templates/emailbody.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/assets/js/newsletter.js",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/front-page.php",
+		"/var/www/html/wordpress/wp-content/themes/swissgolden/template-parts/page/content-front-page.php",
+		"/var/www/html/mail/index.html",
+		"/var/www/html/w3schools16/index.html",
+		"/var/www/html/w3schools16/default.html"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"create_jpeg",
+			"small",
+			"large",
+			"small",
+			"i",
+			"pixel",
+			"->",
+			"large_tri",
+			"i",
+			"x",
+			"k",
+			"j",
+			"1",
+			"small_bi.biWidth",
+			"small",
+			"0013755g.com",
+			"xvideos.com",
+			"xvideos",
+			"whodunit",
+			"verdict",
+			"clue",
+			"site.avatar",
+			"page.image",
+			":\n",
+			"</sup>",
+			"<sup>",
+			"<sup>\\[a-z]\\[0-9]</sup>",
+			"$_SERVER['REMOTE_ADDR']",
+			"client_ip",
+			"jquery-1.11.2",
+			"localhost",
+			"<?php",
+			" $packprice *",
+			"resize",
+			"circle",
+			"#btc-acc",
+			"wrapper",
+			"<main>",
+			"main>",
+			"15",
+			"background-color: white; ",
+			"3778A5",
+			"C://xampp/htdocs/",
+			". ",
+			"input_type",
+			".w3-sidenav"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"second",
+			"first",
+			"^",
+			"message_wrapper",
+			"quotes_wrapper"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 102.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": ".cs50_p4_recover.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 220.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

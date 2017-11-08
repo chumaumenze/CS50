@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+
+import sys
+import os
+
+from helpers import get_user_timeline
+from analyzer import Analyzer
+from termcolor import colored
+
+def main():
+
+    # ensure proper usage
+    if len(sys.argv) != 2:
+        sys.exit("Usage: ./smile @screen_name")
+    else:
+    	screen_name = sys.argv[1]
+
+    tweets = get_user_timeline(screen_name, count=50)
+
+    # absolute paths to lists
+    positives = os.path.join(sys.path[0], "positive-words.txt")
+    negatives = os.path.join(sys.path[0], "negative-words.txt")
+
+    # instantiate analyzer
+    analyzer = Analyzer(positives, negatives)
+
+    # analyze word
+    for i in range(len(tweets)):
+	    score = analyzer.analyze(tweets[i])
+	    if score > 0.0:
+	        print(colored("{} {}".format(score, tweets[i]), "green"))
+	        # print("{} {}".format(score, tweets[i]))
+	    elif score < 0.0:
+	        print(colored("{} {}".format(score, tweets[i]), "red"))
+	        # print("{} {}".format(score, tweets[i]))
+	    else:
+	        print(colored("{} {}".format(score, tweets[i]), "yellow"))
+	        # print("{} {}".format(score, tweets[i]))
+
+if __name__ == "__main__":
+    main()

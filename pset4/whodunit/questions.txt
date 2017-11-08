@@ -1,0 +1,12 @@
+1.  Header file for fixed width integer (AKA. standard int/integer)
+2.  To limit the integers to a fixed width or bits. In this case 8-bit U, 32-bit U, 32-bit, and 16-bit U respectively. (U: Unsigned)
+3.  1 byte, 4 byte, 4 byte and 2 bytes respectively
+4.  0x4d42
+5.  bfSize is the sizeof biSizeImage, BITMAPFILEHEADER & BITMAPINFOHEADER. biSize is size of BITMAPINFOHEADER. (All in bytes).
+6.  Image is a top-down bitmap with origin at upper left corner
+7.  biBitCount
+8.  If input file does not exist or system has no enough memory to load/create the file, fopen() returns NULL
+9.  The number of objects to read. (Ex. fread(&bf, sizeof(BITMAPFILEHEADER), 1, inptr) means read the size of BITMAPFILEHEADER from inptr to bf once). 
+10. 3
+11. Sets the file position indicator
+12. It indicates to fseek the current file indicator position.
