@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<section id="dashboard">
+    <h3 class="float-left">Dashboard</h3><br />
+    <table class="table">
+        <thead class="thead-default">
+            <tr>
+                <th>Stocks</th>
+                <th>Price</th>
+                <th>Shares</th>
+                <th>Amount</th>
+                <th>Quick Trade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if userstocks %}
+            {% for stock in userstocks %}
+            <form action="/qtrade" method="POST">
+            <tr>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.price }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td><input id="buy-{{ stock.name }}" name="{{ stock.id }}" type="number" pattern="[0-9]" required></td>
+                <td>
+                    <button class="btn btn-primary" id="{{ stock.id }}" name="qbuy"  value="1" type="submit" pattern="[0-9]">Buy</button>
+                    <button class="btn btn-warning" id="{{ stock.id }}" name="qsell" value="1" type="submit" pattern="[0-9]">Sell</button>
+                </td>
+            </tr>
+            </form>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5">
+                    <h5 class="mt-5">Sorry, No stock data available</h5>
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+python3.6 ./config.py
+
+python3.6 application.py

@@ -45,8 +45,13 @@ Implement some C programs
 
 
 [Hello]: http://docs.cs50.net/problems/hello/hello.html "Hello.c specifications"
+
 [Water]: http://docs.cs50.net/problems/water/water.html "Water.c specifications"
+
 [Mario-less]: (http://docs.cs50.net/problems/mario/less/mario.html "Mario.c specifications"
+
 [Mario-more]: http://docs.cs50.net/problems/mario/more/mario.html "Mario.c specifications"
+
 [Greedy]: http://docs.cs50.net/problems/greedy/greedy.html "Greedy.c specifications"
+
 [Credit]: http://docs.cs50.net/problems/credit/credit.html "Credit.c specifications"

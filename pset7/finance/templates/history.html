@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<section>
+    <h4>Transaction History</h4>
+    <div>
+        <table class="table">
+            <thead class="thead-default">
+                <tr>
+                    <th>Trans. ID</th>
+                    <td>Stock</td>
+                    <td>Action</td>
+                    <td>Shares</td>
+                    <td>Price</td>
+                    <td>Time</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% if stockhistory %}
+                {% for trans in stockhistory %}
+                <tr>
+                    <th scope="row">#{{ trans.id }}</th>
+                    <td>{{ trans.name }}</td>
+                    <td>{{ trans.action }}</td>
+                    <td>{{ trans.shares}}</td>
+                    <td>${{ trans.price }}</td>
+                    <td>{{ trans.time }}</td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7">
+                        <h5 class="mt-5">Sorry, No stock data available</h5>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

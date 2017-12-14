@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block main %}
+<section id="quote">
+    <div>
+        <h5>Get a Quote</h5>
+        <p>Get the current price of any stock of your choice. We will add all valid stocks you've purchase to your account.</p>
+    </div>
+    <div>
+        <form action="/quote" method="POST">
+            <div class="form-group">
+                <div class="input-group">
+                    <input name="custom_stock" id="custom_stock" type="text" class="form-control" placeholder="eg. GOOG" aria-placeholder="eg. GOOG">
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>
+{% endblock %}

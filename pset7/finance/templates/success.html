@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Success!
+{% endblock %}
+
+{% block main %}
+    <div class="text-center">
+        <h1>Success!</h1>
+        <p>
+            You have successfully registered. Please click <a href="{{ url_for('login') }}">here to login</a>.
+        </p>
+    </div>
+{% endblock %}

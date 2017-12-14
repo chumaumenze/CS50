@@ -41,7 +41,11 @@ Let's do some encryption
 
 
 [Initials-less]: http://docs.cs50.net/problems/initials/less/initials.html "Initials.c specifications"
+
 [Initials-more]: http://docs.cs50.net/problems/initials/more/initials.html "Initials.c specifications"
+
 [Caesar]: http://docs.cs50.net/problems/caesar/caesar.html "Caesar.c specifications"
+
 [Vigenere]: http://docs.cs50.net/problems/vigenere/vigenere.html "Vigenere.c specifications"
+
 [Crack]: http://docs.cs50.net/problems/crack/crack.html "Crack.c specifications"
