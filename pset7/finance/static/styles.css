@@ -46,12 +46,27 @@ main img
     max-width: 100%;
 }
 
-div.modal-body > section
+div.modal-body > section,
+div#modal-manageacc > div
 {
     display: none;
 }
 
-div.modal-body > section.active
+div.modal-body > section.active,
+div#modal-manageacc > div.active
 {
     display: block;
+}
+
+div.modal-form *
+{
+    display: initial;
+    width: 100%;
+}
+
+ul#modal-nav li a.active,
+ul#modal-nav li a:hover
+{
+    background-color: #c1c2c4;
+    border-radius: 5%;
 }

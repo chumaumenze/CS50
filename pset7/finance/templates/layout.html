@@ -9,14 +9,25 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
         <!-- documentation at http://getbootstrap.com/docs/4.0/, alternative themes at https://bootswatch.com/4-alpha/ -->
+        <!-- Offline -->
+        <link href="../static/bootstrap.min.css" rel="stylesheet" />
+        <!-- Original
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet"/>
+        -->
 
         <link href="/static/styles.css" rel="stylesheet"/>
 
+        <!-- Offline -->
+        <script src="../static/js/jquery.min.js"></script>
+        <script src="../static/js/popper.min.js"></script>
+        <script src="../static/js/bootstrap.min.js"></script>
+        <script src="../static/js/finance.js"></script>
+
+        <!-- Original
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-        <script src="../static/js/finance.js"></script>
+        -->
 
         <title>C$50 Finance: {% block title %}{% endblock %}</title>
 
@@ -24,32 +35,7 @@
 
     <body>
 
-        <nav class="navbar navbar-expand-md navbar-light bg-light border">
-            <a class="navbar-brand" href="/"><span class="blue">C</span><span class="red">$</span><span class="yellow">5</span><span class="green">0</span> <span class="red">Finance</span></a>
-            <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbar">
-                {% if session.user_id %}
-                    <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/quote">Quote</a></li>
-                        <li class="nav-item"><a class="nav-link" id="buy-link" href="#buy" data-toggle="modal" data-target="#transact">Buy</a></li>
-                        <li class="nav-item"><a class="nav-link" id="sell-link" href="#sell" data-toggle="modal" data-target="#transact">Sell</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="#account">Account</a></li>
-                        <li class="nav-item"><a class="nav-link">{{ userbalance }}</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-                    </ul>
-                {% else %}
-                    <ul class="navbar-nav ml-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
-                    </ul>
-                {% endif %}
-            </div>
-        </nav>
+        {% include "include/nav.html" %}
 
         {% with errors = get_flashed_messages(category_filter=["error"])%}
         {% if errors %}
@@ -68,102 +54,26 @@
         {% endif %}
         {% endif %}
         {% endwith%}
+        
+        {% if resetpassword %}
+        <header>
+            {% if resetpassword.type == 'success' %}
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ resetpassword.text }}
+                </div>
+            {% else %}
+                <div class="alert alert-danger border text-center" role="alert">
+                    {{ resetpassword.text }}
+                </div>
+            {% endif %}
+            </header>
+        {% endif %}
 
         <main class="container p-5">
             {% block main %}{% endblock %}
 
             {% if session.user_id %}
-            <!-- Modal -->
-            <div class="modal fade" id="transact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="transhead">Transact</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <section id="buy">
-                                <h6 class="float-right">Balance: {{ userbalance }}</h6>
-                                <form action="/buy" method="POST">
-                                    <table class="table">
-                                        <thead class="thead-default">
-                                            <tr>
-                                                <th>Stocks</th>
-                                                <th>Price</th>
-                                                <th>Shares</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% if buystocks %}
-                                            {% for stock in buystocks %}
-                                            <tr>
-                                                <td>{{ stock.name }}</td>
-                                                <td>{{ stock.price }}</td>
-                                                <td><input id="buy-{{ stock.name }}" name="{{ stock.id }}" type="number" pattern="[0-9]"></td>
-                                            </tr>
-                                            {% endfor %}
-                                            {% else %}
-                                            <tr>
-                                                <td colspan="3">
-                                                    <h5 class="mt-4" >Sorry, No stock data available</h5>
-                                                </td>
-                                            </tr>
-                                            {% endif %}
-                                        </tbody>
-                                    </table>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        {% if buystocks %}
-                                        <button type="submit" class="btn btn-primary" id="transinit">Buy</button>
-                                        {% endif %}
-                                    </div>
-                                </form>
-                            </section>
-                            <section id="sell">
-                                <h5 class="float-right">Balance: {{ userbalance }}</h5>
-                                <form action="/sell" method="POST">
-                                    <table class="table">
-                                        <thead class="thead-default">
-                                            <tr>
-                                                <th>Stocks</th>
-                                                <th>Price</th>
-                                                <th>Shares</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% if userstocks %}
-                                            {% for stock in userstocks %}
-                                            <tr>
-                                                <td>{{ stock.name }}</td>
-                                                <td>{{ stock.price }}</td>
-                                                <td>{{ stock.quantity }}</td>
-                                                <td><input id="sell-{{ stock.name }}" name="{{ stock.id }}" type="number" pattern="[0-9]"></td>
-                                            </tr>
-                                            {% endfor %}
-                                            {% else %}
-                                            <tr>
-                                                <td colspan="4">
-                                                    <h5 class="mt-4" >Sorry, You have no stock yet.</h5>
-                                                </td>
-                                            </tr>
-                                            {% endif %}
-                                        </tbody>
-                                    </table>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        {% if userstocks %}
-                                        <button type="submit" class="btn btn-primary">Sell</button>
-                                        {% endif %}
-                                    </div>
-                                </form>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {% include "include/modals.html" %}
             {% endif %}
         </main>
         

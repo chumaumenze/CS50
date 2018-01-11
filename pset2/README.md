@@ -33,10 +33,15 @@ Let's do some encryption
 ## Links
 
 [Problem Set 2](http://docs.cs50.net/2017/x/psets/2/pset2.html)
+
 [Initials (Less Comfortable)][Initials-less]
+
 [Initials (More Comfortable)][Initials-more]
+
 [Caesar (Less Comfortable)][Caesar]
+
 [Vigenere (Less Comfortable)][Vigenere]
+
 [Crack (More Comfortable)][Crack]
 
 

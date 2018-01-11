@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Install dependencies
+# pip3.6 install --user -r requirements.txt
+
+# Configure database
 python3.6 ./config.py
 
+# Start application
 python3.6 application.py

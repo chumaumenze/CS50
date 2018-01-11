@@ -1,0 +1,30 @@
+<ul class="navbar-nav mr-auto mt-2">
+    <li class="nav-item">
+        <a class="nav-link" href="/quote">Quote</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="buy-link" href="#buy" data-toggle="modal" data-target="#modalmain">Buy</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="sell-link" href="#sell" data-toggle="modal" data-target="#modalmain">Sell</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/history">History</a>
+    </li>
+</ul>
+<ul class="navbar-nav ml-auto mt-2">
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="accountdropdown" href="#account-dropdown" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">Account</a>
+        <div class="dropdown-menu" aria-labelledby="accountdropdown">
+            <a class="dropdown-item">{{ userbalance }}</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item"></a>
+            <a class="dropdown-item" id="fundaccount" href="#manageaccount" data-toggle="modal" data-target="#modalmain">Manage Account</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/logout">Log Out</a>
+    </li>
+</ul>
