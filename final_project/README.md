@@ -22,4 +22,4 @@ Cross-platform GUI application that provides CS50 contents offline
 
 Twitter: [@chumaumenze](https://twitter.com/chumaumenze)
 
-Email: [chumaumenze@outlook.com](mail:chumaumenze@outlook.com)
+Email: [chumaumenze@outlook.com](mailto:chumaumenze@outlook.com)
