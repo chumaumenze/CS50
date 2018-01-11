@@ -1,0 +1,15 @@
+CREATE VIRTUAL TABLE places USING fts3(country_code TEXT NOT NULL,
+                    postal_code TEXT NOT NULL,
+                    place_name TEXT,
+                    admin_name1 TEXT,
+                    admin_code1 TEXT,
+                    admin_name2 TEXT,
+                    admin_code2 TEXT,
+                    admin_name3 TEXT,
+                    admin_code3 TEXT,
+                    latitude REAL NOT NULL,
+                    longitude REAL NOT NULL,
+                    accuracy INTEGER
+                    );
+.separator "\t"
+.import US.txt places

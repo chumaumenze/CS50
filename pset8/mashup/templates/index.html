@@ -10,8 +10,8 @@
         <!-- http://getbootstrap.com/ -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 
-        <!-- app's own CSS -->
-        <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet"/>
+        <!-- App's own CSS -->
+        <link href="/static/styles.css" rel="stylesheet"/>
 
         <!-- https://developers.google.com/maps/documentation/javascript/ -->
         <script src="https://maps.googleapis.com/maps/api/js?key={{ key | urlencode }}&v=3.exp"></script>
@@ -28,18 +28,15 @@
         <!-- http://handlebarsjs.com/ -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
-        <!-- http://stewartjpark.com/Flask-JSGlue/ -->
-        {{ JSGlue.include() }}
-
         <!-- app's own JavaScript -->
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+        <script src="/static/scripts.js"></script>
 
         <title>Mashup</title>
 
     </head>
     <body>
 
-        <!-- fill viewport -->
+        <!-- Fill viewport -->
         <div class="container-fluid">
 
             <!-- https://developers.google.com/maps/documentation/javascript/tutorial -->

@@ -12,6 +12,48 @@
         <div class="form-group">
             <input class="form-control" name="password" id="password" placeholder="Password" type="password" pattern=".{6,100}" required/>
         </div>
+        <a id="forgot" class="text-left mr-4" href="#forgotpass" data-toggle="modal" data-target="#resetpass">Forgot password</a>
         <button class="btn btn-primary" type="submit">Log In</button>
     </form>
+    <!-- Modal -->
+    <div class="modal fade" id="resetpass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transhead">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section id="forgotpass" class="mx-3">
+                        <p>Answer the following questions to reset your password</p>
+                        <form action="/forgotpass" method="POST">
+                            <div class="form-group modal-form">
+                                <label for="username">Enter your username <span class="text-danger">*</span></label>
+                                <input autocomplete="off" class="form-control" name="username" id="username" placeholder="Username" type="text" pattern="\b[a-zA-Z].{3,50}\b" required/>
+                            </div>
+                            <div class="form-group modal-form">
+                                <label for="laststock">What was your last trade action? <span class="text-danger">*</span></label>
+                                <input class="form-control" name="lastaction" id="lastaction" placeholder="eg. SELL" type="text" pattern="\b[a-zA-Z].{2,50}\b" required/>
+                            </div>
+                            <div class="form-group modal-form">
+                                <label for="laststock">What was the last stock you bought? <span class="text-danger">*</span></label>
+                                <input class="form-control" name="laststock" id="laststock" placeholder="eg. NASDAQ" type="text" pattern="\b[a-zA-Z].{2,50}\b" required/>
+                            </div>
+                            <div class="form-group modal-form">
+                                <label for="laststockquantity">What was the quantity? <span class="text-danger">*</span></label>
+                                <input class="form-control" name="laststockquantity" id="laststockquantity" placeholder="eg. 5" type="number" pattern="\b[0-9].{0,50}\b" required/>
+                            </div>
+                            <div class="form-group modal-form">
+                                <label for="sitebuilder">Who built this site?</label>
+                                <input class="form-control" name="sitebuilder" id="sitebuilder" placeholder="eg. David" type="text" pattern="\b[a-zA-Z].{3,50}\b"/>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Reset Password</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

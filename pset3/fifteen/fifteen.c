@@ -160,7 +160,6 @@ void greet(void)
  */
 void init(void)
 {
-    // TODO
     int tiles = (d * d) - 1;
     // for rows
     for(int i = 0; i < d; i++)
@@ -196,7 +195,6 @@ void init(void)
  */
 void draw(void)
 {
-    // TODO
     for(int i = 0; i < d; i++)
     {
         for(int j = 0; j < d; j++)
@@ -213,7 +211,6 @@ void draw(void)
  */
 int move(int tile)
 {
-    // TODO
     for(int i = 0; i < d; i++)
     {
         for(int j = 0; j < d; j++)
@@ -247,7 +244,6 @@ int move(int tile)
  */
 int won(void)
 {
-    // TODO
     int success = 0;
     int tile = 1;
     int x = (d * d);

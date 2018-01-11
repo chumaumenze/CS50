@@ -52,7 +52,6 @@ def lookup(symbol):
 
         # GET CSV
         url = f"http://download.finance.yahoo.com/d/quotes.csv?f=snl1&s={symbol}"
-        
         webpage = urllib.request.urlopen(url)
 
         # read CSV
@@ -81,7 +80,6 @@ def lookup(symbol):
     # https://www.alphavantage.co/documentation/
     try:
 
-        # GET CSV
         url = f"https://www.alphavantage.co/query?apikey=NAJXWIA8D6VN6A3K&datatype=csv&function=TIME_SERIES_INTRADAY&interval=1min&symbol={symbol}"
 
         webpage = urllib.request.urlopen(url)
@@ -142,14 +140,19 @@ def get_price(*symbols):
     """
     if len(symbols) is 1:
         result = lookup(symbols[0])
-        return result['price'] if result else None
+        # print(f"get_price(): ${symbols} price is ${result.get('price')}")
+        return result.get('price') if result else None
     prices = {}
     for symbol in symbols:
+        # Store lookup values for each symbols
         result[symbol] = lookup(symbol)
         try:
+            # Extract prices for each symbol
             prices[symbol] = result[symbol]['price']
         except:
             pass
+
+    print(f"price is ${prices}")
     return prices
 
 
@@ -171,7 +174,9 @@ def get_stocklist(database, stocksid=False, prices=False):
         stockid = values[0] if isinstance(values[0], int) else values[1]
         name = values[1] if isinstance(values[1], str) else values[0]
         # print("id: {}, name: {}".format(stockid, name))
-        price = usd(get_price(name))
+        price = get_price(name)
+        if price:
+            price = usd(price)
         if prices or stocksid:
             stocklist.append({'id': stockid, 'name': name, 'price': price})
         else:
@@ -236,7 +241,7 @@ def get_userstock(database, userid, table="userstocks"):
             quantity = int(result[symbol])
             price = get_price(symbol)
             if price:
-                price =usd(get_price(symbol))
+                price = usd(price)
             stockid = get_stockid(database, symbol)
             if quantity:
                 stocks.append({'name': symbol, 'quantity': quantity, 'price': price, 'id': stockid})
@@ -270,6 +275,26 @@ def trade(database, userid, requestform, action):
     if not isinstance(database, SQL):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
+    
+    # Get current balance
+    balance = float("{:.2f}".format(get_userbal(database, userid)))
+
+    if action.upper() == 'FUND':
+        balance = balance + 100
+        sitebuilder = request.form.get('buildername').upper()
+        siteauthor = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA', 'UMENZE', 'CHIMA UMENZE']
+
+        # Check answer
+        if sitebuilder in siteauthor:
+            # Update balance
+            database.execute("UPDATE users SET cash = :balance WHERE id = :userid", balance=balance, userid=userid)
+            
+            # Log transaction
+            database.execute("INSERT INTO 'transactions' ('user_id','action','price') VALUES (:userid,:action,:price)", userid=userid, action="FUND", price=100)
+
+            return dict(type='success', text='You just funded your account with $100.00')
+        else:
+            return None
 
     requestform = dict(requestform)
     
@@ -279,7 +304,6 @@ def trade(database, userid, requestform, action):
     elif 'qsell' in requestform:
         del requestform['qsell']
 
-    balance = float("{:.2f}".format(get_userbal(database, userid)))
     # stocks = get_userstock(database, userid)
     stocks = {}
     costs = []
@@ -304,7 +328,7 @@ def trade(database, userid, requestform, action):
     # Debugging
     print("Balance: {}, Cost: {}".format(balance, cost))
     print("DEBUG:cs50:trade(): {}".format(stocks))
-
+        
     if action.upper() == 'BUY':
 
         if not cost:
@@ -339,7 +363,7 @@ def trade(database, userid, requestform, action):
                 for i in range(len(userstocks)):
                     if i == len(stocks):
                         break
-                    print("line:379:sell():userstocks: {}, share: {}".format(userstocks, stocks.get(userstocks[0]['name'])))
+                    print(f"line:379:sell():userstocks: {userstocks}, share: {stocks.get(userstocks[0]['name'])}")
                     share = stocks.get(userstocks[i]['name'])
                     if share:
                         if int(share) > userstocks[i]['quantity']:
@@ -357,6 +381,5 @@ def trade(database, userid, requestform, action):
                         # Log transaction
                         database.execute("INSERT INTO 'transactions' ('user_id','stock_id','action','price','shares') VALUES (:userid,:stockid,:action,:price,:shares)", userid=userid, stockid=get_stockid(database, stock), action="SELL", price=get_price(stock), shares=stocks[stock])
                 return dict(type='success', text='Stocks Sold', balance=balance)
-
     else:
         return None

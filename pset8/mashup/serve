@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# sqlite3 --separator "\t" "mashup.db" --init "./config"
+
+python3.6 application.py

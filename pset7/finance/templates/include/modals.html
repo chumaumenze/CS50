@@ -1,0 +1,155 @@
+<!-- Modal -->
+<div class="modal fade" id="modalmain" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="transhead">Transact</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <section id="buy">
+                    <h6 class="float-right">Balance: {{ userbalance }}</h6>
+                    <form action="/buy" method="POST">
+                        <table class="table">
+                            <thead class="thead-default">
+                                <tr>
+                                    <th>Stocks</th>
+                                    <th>Price</th>
+                                    <th>Shares</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if buystocks %} {% for stock in buystocks %}
+                                <tr>
+                                    <td>{{ stock.name }}</td>
+                                    <td>{{ stock.price }}</td>
+                                    <td>
+                                        <input id="buy-{{ stock.name }}" name="{{ stock.id }}" type="number" pattern="[0-9]">
+                                    </td>
+                                </tr>
+                                {% endfor %} {% else %}
+                                <tr>
+                                    <td colspan="3">
+                                        <h5 class="mt-4">Sorry, No stock data available</h5>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {% if buystocks %}
+                            <button type="submit" class="btn btn-primary" id="transinit">Buy</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </section>
+                <section id="sell">
+                    <h5 class="float-right">Balance: {{ userbalance }}</h5>
+                    <form action="/sell" method="POST">
+                        <table class="table">
+                            <thead class="thead-default">
+                                <tr>
+                                    <th>Stocks</th>
+                                    <th>Price</th>
+                                    <th>Shares</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if userstocks %} {% for stock in userstocks %}
+                                <tr>
+                                    <td>{{ stock.name }}</td>
+                                    <td>{{ stock.price }}</td>
+                                    <td>{{ stock.quantity }}</td>
+                                    <td>
+                                        <input id="sell-{{ stock.name }}" name="{{ stock.id }}" type="number" pattern="[0-9]">
+                                    </td>
+                                </tr>
+                                {% endfor %} {% else %}
+                                <tr>
+                                    <td colspan="4">
+                                        <h5 class="mt-4">Sorry, You have no stock yet.</h5>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            {% if userstocks %}
+                            <button type="submit" class="btn btn-primary">Sell</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </section>
+
+                <section id="modalaccount" class="mx-3">
+                    <nav class="navbar navbar-expand-sm navbar-light navbar-light bg-light border p-0">
+                        <ul class="navbar-nav mx-auto my-auto" id="modal-nav">
+                            <li class="navbar-item">
+                                <a class="nav-link active" href="#modal-changepassword">Change Password</a>
+                            </li>
+                            <li class="navbar-item mx-3">
+                                <a class="nav-link" href="#modal-fundaccount">Fund Account</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a class="nav-link text-danger" href="#modal-closeaccount">Close Account</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div id="modal-manageacc">
+                        <div class="my-4 active" id="modal-changepassword">
+                            <p class="text-left">
+                                Fill out the form to change your password
+                            </p>
+                            <form action="/changepass" method="post" onsubmit="return passmatch()">
+                                <div class="form-group modal-form">
+                                    <input class="form-control" name="oldpassword" id="oldpassword" placeholder="Old password" type="password" pattern=".{3,50}" required/>
+                                </div>
+                                <div class="form-group modal-form">
+                                    <input class="form-control" name="newpassword" id="newpassword" placeholder="New password" type="password" pattern=".{3,50}" required/>
+                                </div>
+                                <div class="form-group modal-form">
+                                    <input class="form-control" name="newpassword2" id="newpassword2" placeholder="New passwword again" type="password" pattern=".{3,50}" required/>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Change Password</button>
+                            </form>
+                        </div>
+                        <div class="my-4" id="modal-fundaccount">
+                            <p class="text-left">
+                                Answer these simply questions to earn more money<br />
+                                <em>Each correct answer is $100.00</em>
+                            </p>
+                            <form action="/fundacc" method="post">
+                                <div class="form-group modal-form">
+                                    <label for="buildername">Who built this site?
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input autocomplete="off" class="form-control" name="buildername" id="buildername" placeholder="eg. David Malan" type="text" pattern=".{3,50}" required/><br /><small>We'll add more questions soon.</small>
+                                </div>
+                                <button class="btn btn-primary" type="submit">Fund Account</button>
+                                
+                            </form>
+                            
+                        </div>
+                        <div class="my-4" id="modal-closeaccount">
+                            <p class="text-left">
+                                You are about to delete your account permanently.<br />
+                                <em class="font-weight-bold">This action is irreversible</em>
+                            </p>
+                            <form action="/close" method="post">
+                                <div class="form-group modal-form">
+                                    <input class="form-control" name="currentpass" id="currentpass" placeholder="Confirm your password" type="password" pattern=".{3,50}" required/>
+                                </div>
+                                <button class="btn btn-danger" type="submit">Delete Account</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,3 @@
-import requests
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify, url_for
 from flask_session import Session
@@ -182,10 +181,11 @@ def register():
         else:
             db.execute("INSERT INTO 'users' ('username', 'hash') VALUES (:username, :hash)", username=username, hash=generate_password_hash(password))
 
-            # Initialize user's stock data
-            user = db.execute("SELECT * FROM users WHERE username = :username", username=username)[0]
-            db.execute("INSERT INTO 'userstocks' ('user_id') VALUES (:userid)", userid=user["id"])
+            # Get user's id
+            userid = db.execute("SELECT id FROM users WHERE username = :username", username=username)[0].get('id')
 
+            # Initialize user's stock data
+            db.execute("INSERT INTO 'userstocks' ('user_id') VALUES (:userid)", userid=userid)
             return render_template("success.html")
     else:
         return render_template("register.html")
@@ -227,6 +227,126 @@ def quicktrade():
             return redirect("/")
     else:
         return apology("Page not found!", 404)
+
+@app.route("/forgotpass", methods=['POST'])
+def forgotpass():
+    if request.method == "POST":
+        # Extract form values
+        username = request.form.get('username')
+        form = {}
+        form['lastaction'] = request.form.get('lastaction').upper()
+        form['laststock'] = request.form.get('laststock').upper()
+        form['lastquantity'] = request.form.get('laststockquantity')
+        sitebuilder = request.form.get('sitebuilder').upper()
+        userid = db.execute("SELECT id FROM users WHERE username = :username", username=username)
+        score = 0
+
+        if userid:
+            score = score + 1
+            userid = userid[0].get('id')
+            
+            # User's transactions
+            transactions = db.execute("SELECT trans.id, trans.stock_id, trans.action, trans.price, trans.shares, trans.time, stocks.name FROM transactions AS trans JOIN stocks ON trans.stock_id = stocks.id WHERE user_id = :userid ORDER BY trans.id DESC LIMIT 1", userid=userid)
+            
+            if transactions:
+                transactions = transactions[0]
+                print(transactions)
+                result = {}
+                result['lastaction'] = transactions.get('action').upper()
+                result['laststock'] = transactions.get('name').upper()
+                result['lastquantity'] = transactions.get('shares')
+                buildername = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA', 'UMENZE', 'CHIMA UMENZE']
+                for value in form:
+                    if form[value] == result[value]:
+                        print(f"{form[value]} == {result[value]} => {score} + 1")
+                        score = score + 1
+                
+                if sitebuilder in buildername:
+                    score = score + 1
+            
+            if score >= 3:
+                # Generate password
+                from random import randint
+                charsets = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+()[]}{$#")
+                # reset password
+                newpass = ""
+                for i in range(randint(8, 12)):
+                    newpass = newpass + charsets[randint(0, 72)]
+
+                # Change password
+                db.execute("UPDATE 'users' SET 'hash' = :hash WHERE id = :userid", hash=generate_password_hash(newpass), userid=userid)
+
+                resetstatus = dict(type='success', text=f"Your new password is {newpass}")
+                return render_template("login.html", resetpassword=resetstatus)
+            else:
+                resetstatus = dict(type='error', text="We could not reset your password. Some information are incorrect")
+                return render_template("login.html", resetpassword=resetstatus)
+
+        else:
+            flash("Username does not exit", 'error')
+        return redirect('/login')
+
+    else:
+        return apology("Page not found!", 404)
+
+
+@app.route("/fundacc", methods=["POST"])
+@login_required
+def fundacc():
+    if request.method == "POST":
+        response = trade(db, session['user_id'], request.form, 'FUND')
+        
+        if response:
+            flash(response['text'])
+            return redirect("/")
+        else:
+            flash("Your answer is incorrect. Please try again!", 'error')
+            return redirect('/')
+    else:
+        return apology("Page not found")
+
+
+@app.route("/changepass", methods=["POST"])
+@login_required
+def changepass():
+    oldpass = request.form.get('oldpassword')
+    newpass = request.form.get('newpassword')
+    newpass2 = request.form.get('newpassword2')
+
+    if newpass != newpass2:
+        return apology("Passwords do not match")
+    
+    # Match given password
+    hash = db.execute("SELECT hash FROM users WHERE id = :userid", userid=session['user_id'])[0].get('hash')
+    # Ensure old password is correct
+    if check_password_hash(hash, oldpass):
+        # Update password
+        db.execute("UPDATE users SET hash = :newhash", newhash=generate_password_hash(newpass))
+        flash("Password changed successfully")
+        return redirect('/')
+    else:
+        return apology("invalid username and/or password", 403)
+
+
+
+@app.route("/close", methods=["POST"])
+@login_required
+def closeacc():
+    currentpass = request.form.get('currentpass')
+    # Match given password
+    hash = db.execute("SELECT hash FROM users WHERE id = :userid", userid=session['user_id'])[0].get('hash')
+    
+    # Ensure old password is correct
+    if check_password_hash(hash, currentpass):
+        # Delete user account
+        db.execute("DELETE FROM users WHERE id = :userid", userid=session['user_id'])
+        # Delete user stocks
+        db.execute("DELETE FROM userstocks WHERE user_id = :userid", userid=session['user_id'])
+
+        return redirect('/login')
+    else:
+        flash("Password is incorrect", 'error')
+        return redirect('/')
 
 def errorhandler(e):
     """Handle error"""
