@@ -1,11 +1,13 @@
-from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session, jsonify, url_for
-from flask_session import Session
 from tempfile import mkdtemp
+
+from cs50 import SQL
+from flask import Flask, flash, redirect, render_template, request, session
+from flask_session import Session
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, get_price, get_history, get_stocklist, get_userbal, get_userstock, login_required, lookup, trade, usd
+from helpers import apology, get_history, get_stocklist, \
+    get_userbal, get_userstock, login_required, lookup, trade, usd
 
 # Configure application
 app = Flask(__name__)
@@ -14,7 +16,8 @@ app = Flask(__name__)
 if app.config["DEBUG"]:
     @app.after_request
     def after_request(response):
-        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers[
+            "Cache-Control"] = "no-cache, no-store, must-revalidate"
         response.headers["Expires"] = 0
         response.headers["Pragma"] = "no-cache"
         return response
@@ -41,10 +44,10 @@ def index():
     userstocks = get_userstock(db, current_userid)
     stocklist = get_stocklist(db, stocksid=True, prices=True)
     if request.method == "GET" and current_userid:
-        return render_template("index.html", userbalance=usd(userbalance), userstocks=userstocks, buystocks=stocklist)
+        return render_template("index.html", userbalance=usd(userbalance),
+                               userstocks=userstocks, buystocks=stocklist)
     else:
         return apology("TODO")
-    
 
 
 @app.route("/buy", methods=["POST"])
@@ -74,10 +77,11 @@ def history():
     stockhistory = get_history(db, current_userid)
     stocklist = get_stocklist(db, stocksid=True, prices=True)
     if request.method == "GET":
-        return render_template("history.html", userbalance=usd(userbalance), userstocks=userstocks, buystocks=stocklist, stockhistory=stockhistory)
+        return render_template("history.html", userbalance=usd(userbalance),
+                               userstocks=userstocks, buystocks=stocklist,
+                               stockhistory=stockhistory)
     else:
         return apology("TODO")
-
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -90,7 +94,8 @@ def login():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        print("Dict: {}\nMultidict: {}".format(dict(request.form), request.form))
+        print(
+            "Dict: {}\nMultidict: {}".format(dict(request.form), request.form))
 
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -105,7 +110,9 @@ def login():
                           username=request.form.get("username"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"],
+                                                     request.form.get(
+                                                         "password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
@@ -144,22 +151,27 @@ def quote():
         if response:
             if response['symbol'].upper() not in stocklist:
                 # Include stock in known stocks
-                db.execute("INSERT INTO stocks (name) VALUES (:stockname)", stockname=response['symbol'].upper())
+                db.execute("INSERT INTO stocks (name) VALUES (:stockname)",
+                           stockname=response['symbol'].upper())
                 # Add a column for new stock in userstock
-                db.execute("ALTER TABLE userstocks ADD COLUMN :stockname INTEGER NOT NULL DEFAULT 0", stockname=response['symbol'].upper())
-            flash("{} costs ${}. Click 'Buy' to purchase it.".format(response['symbol'].upper(), response['price']))
+                db.execute(
+                    "ALTER TABLE userstocks ADD COLUMN :stockname INTEGER NOT NULL DEFAULT 0",
+                    stockname=response['symbol'].upper())
+            flash("{} costs ${}. Click 'Buy' to purchase it.".format(
+                response['symbol'].upper(), response['price']))
         else:
-            flash("{} is not a valid stock".format(request.form.get("custom_stock")), 'error')
+            flash("{} is not a valid stock".format(
+                request.form.get("custom_stock")), 'error')
         return redirect("/quote")
     else:
-        return render_template("quote.html", userbalance=usd(userbalance), userstocks=userstocks, buystocks=stocklist)
-
+        return render_template("quote.html", userbalance=usd(userbalance),
+                               userstocks=userstocks, buystocks=stocklist)
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     """Register user"""
-    
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
@@ -174,22 +186,28 @@ def register():
             return apology("Passwords do not match")
 
         # check if username already exits in database
-        user_exist = db.execute("SELECT username FROM users WHERE username = :username", username=username)
+        user_exist = db.execute(
+            "SELECT username FROM users WHERE username = :username",
+            username=username)
         print("user_exist: {}".format(user_exist))
         if user_exist:
             return apology("User already exists")
         else:
-            db.execute("INSERT INTO 'users' ('username', 'hash') VALUES (:username, :hash)", username=username, hash=generate_password_hash(password))
+            db.execute(
+                "INSERT INTO 'users' ('username', 'hash') VALUES (:username, :hash)",
+                username=username, hash=generate_password_hash(password))
 
             # Get user's id
-            userid = db.execute("SELECT id FROM users WHERE username = :username", username=username)[0].get('id')
+            userid = \
+                db.execute("SELECT id FROM users WHERE username = :username",
+                           username=username)[0].get('id')
 
             # Initialize user's stock data
-            db.execute("INSERT INTO 'userstocks' ('user_id') VALUES (:userid)", userid=userid)
+            db.execute("INSERT INTO 'userstocks' ('user_id') VALUES (:userid)",
+                       userid=userid)
             return render_template("success.html")
     else:
         return render_template("register.html")
-
 
 
 @app.route("/sell", methods=["POST"])
@@ -218,7 +236,7 @@ def quicktrade():
             response = trade(db, session['user_id'], request.form, 'BUY')
         else:
             response = trade(db, session['user_id'], request.form, 'SELL')
-            
+
         if response:
             if response['type'] is 'error':
                 flash(response['text'], 'error')
@@ -227,6 +245,7 @@ def quicktrade():
             return redirect("/")
     else:
         return apology("Page not found!", 404)
+
 
 @app.route("/forgotpass", methods=['POST'])
 def forgotpass():
@@ -238,16 +257,22 @@ def forgotpass():
         form['laststock'] = request.form.get('laststock').upper()
         form['lastquantity'] = request.form.get('laststockquantity')
         sitebuilder = request.form.get('sitebuilder').upper()
-        userid = db.execute("SELECT id FROM users WHERE username = :username", username=username)
+        userid = db.execute("SELECT id FROM users WHERE username = :username",
+                            username=username)
         score = 0
 
         if userid:
             score = score + 1
             userid = userid[0].get('id')
-            
+
             # User's transactions
-            transactions = db.execute("SELECT trans.id, trans.stock_id, trans.action, trans.price, trans.shares, trans.time, stocks.name FROM transactions AS trans JOIN stocks ON trans.stock_id = stocks.id WHERE user_id = :userid ORDER BY trans.id DESC LIMIT 1", userid=userid)
-            
+            transactions = db.execute(
+                "SELECT trans.id, trans.stock_id, trans.action, trans.price, "
+                "trans.shares, trans.time, stocks.name FROM transactions AS "
+                "trans JOIN stocks ON trans.stock_id = stocks.id WHERE "
+                "user_id = :userid ORDER BY trans.id DESC LIMIT 1",
+                userid=userid)
+
             if transactions:
                 transactions = transactions[0]
                 print(transactions)
@@ -255,31 +280,38 @@ def forgotpass():
                 result['lastaction'] = transactions.get('action').upper()
                 result['laststock'] = transactions.get('name').upper()
                 result['lastquantity'] = transactions.get('shares')
-                buildername = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA', 'UMENZE', 'CHIMA UMENZE']
+                buildername = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA',
+                               'UMENZE', 'CHIMA UMENZE']
                 for value in form:
                     if form[value] == result[value]:
-                        print(f"{form[value]} == {result[value]} => {score} + 1")
+                        print(
+                            f"{form[value]} == {result[value]} => {score} + 1")
                         score = score + 1
-                
+
                 if sitebuilder in buildername:
                     score = score + 1
-            
+
             if score >= 3:
                 # Generate password
                 from random import randint
-                charsets = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+()[]}{$#")
+                charsets = list(
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/+()[]}{$#")
                 # reset password
                 newpass = ""
                 for i in range(randint(8, 12)):
                     newpass = newpass + charsets[randint(0, 72)]
 
                 # Change password
-                db.execute("UPDATE 'users' SET 'hash' = :hash WHERE id = :userid", hash=generate_password_hash(newpass), userid=userid)
+                db.execute(
+                    "UPDATE 'users' SET 'hash' = :hash WHERE id = :userid",
+                    hash=generate_password_hash(newpass), userid=userid)
 
-                resetstatus = dict(type='success', text=f"Your new password is {newpass}")
+                resetstatus = dict(type='success',
+                                   text=f"Your new password is {newpass}")
                 return render_template("login.html", resetpassword=resetstatus)
             else:
-                resetstatus = dict(type='error', text="We could not reset your password. Some information are incorrect")
+                resetstatus = dict(type='error',
+                                   text="We could not reset your password. Some information are incorrect")
                 return render_template("login.html", resetpassword=resetstatus)
 
         else:
@@ -295,7 +327,7 @@ def forgotpass():
 def fundacc():
     if request.method == "POST":
         response = trade(db, session['user_id'], request.form, 'FUND')
-        
+
         if response:
             flash(response['text'])
             return redirect("/")
@@ -315,18 +347,19 @@ def changepass():
 
     if newpass != newpass2:
         return apology("Passwords do not match")
-    
+
     # Match given password
-    hash = db.execute("SELECT hash FROM users WHERE id = :userid", userid=session['user_id'])[0].get('hash')
+    hash = db.execute("SELECT hash FROM users WHERE id = :userid",
+                      userid=session['user_id'])[0].get('hash')
     # Ensure old password is correct
     if check_password_hash(hash, oldpass):
         # Update password
-        db.execute("UPDATE users SET hash = :newhash", newhash=generate_password_hash(newpass))
+        db.execute("UPDATE users SET hash = :newhash",
+                   newhash=generate_password_hash(newpass))
         flash("Password changed successfully")
         return redirect('/')
     else:
         return apology("invalid username and/or password", 403)
-
 
 
 @app.route("/close", methods=["POST"])
@@ -334,19 +367,23 @@ def changepass():
 def closeacc():
     currentpass = request.form.get('currentpass')
     # Match given password
-    hash = db.execute("SELECT hash FROM users WHERE id = :userid", userid=session['user_id'])[0].get('hash')
-    
+    hash = db.execute("SELECT hash FROM users WHERE id = :userid",
+                      userid=session['user_id'])[0].get('hash')
+
     # Ensure old password is correct
     if check_password_hash(hash, currentpass):
         # Delete user account
-        db.execute("DELETE FROM users WHERE id = :userid", userid=session['user_id'])
+        db.execute("DELETE FROM users WHERE id = :userid",
+                   userid=session['user_id'])
         # Delete user stocks
-        db.execute("DELETE FROM userstocks WHERE user_id = :userid", userid=session['user_id'])
+        db.execute("DELETE FROM userstocks WHERE user_id = :userid",
+                   userid=session['user_id'])
 
         return redirect('/login')
     else:
         flash("Password is incorrect", 'error')
         return redirect('/')
+
 
 def errorhandler(e):
     """Handle error"""

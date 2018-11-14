@@ -1,13 +1,13 @@
 "use strict";
 
 var passmatch = () => {
-    var result = document.getElementById('newpassword').value === document.getElementById('newpassword2').value
+    var result = document.getElementById('newpassword').value === document.getElementById('newpassword2').value;
     if (!result){
-        console.log("Passwords do not match")
-        $('#newpassword, #newpassword2').css({borderColor: "red"})
+        console.log("Passwords do not match");
+        $('#newpassword, #newpassword2').css({borderColor: "red"});
     return result
     }
-}
+};
 $(document).ready(function(){
     
     $('#buy-link').click(() => {
@@ -35,20 +35,20 @@ $(document).ready(function(){
             $('#buy, #sell').removeClass('active');
         }
         $('#modalaccount').addClass('active');
-    })
+    });
 
     $('ul#modal-nav li a').click((event) => {
-        event.preventDefault()
+        event.preventDefault();
         // var maindiv = $('div#modal-manageacc')
 
-        var targetdiv = event.currentTarget.hash
-        console.log(event)
-        var activediv = $('div#modal-manageacc > .active')
+        var targetdiv = event.currentTarget.hash;
+        console.log(event);
+        var activediv = $('div#modal-manageacc > .active');
 
         if (!$(targetdiv).is($(activediv))){
             $(targetdiv).addClass('active').siblings().removeClass('active');
             
-            $('ul#modal-nav li a').removeClass('active')
+            $('ul#modal-nav li a').removeClass('active');
             $(event.currentTarget).addClass('active')
         }
     })

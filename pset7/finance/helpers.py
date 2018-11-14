@@ -1,13 +1,14 @@
 import csv
 import urllib.request
-
-from cs50 import SQL, eprint
-from flask import redirect, render_template, request, session, jsonify
 from functools import wraps
+
+from cs50 import SQL
+from flask import redirect, render_template, request, session
 
 
 def apology(message, code=400):
     """Renders message as an apology to user."""
+
     def escape(s):
         """
         Escape special characters.
@@ -18,7 +19,9 @@ def apology(message, code=400):
                          ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
             s = s.replace(old, new)
         return s
-    return render_template("apology.html", top=code, bottom=escape(message)), code
+
+    return render_template("apology.html", top=code,
+                           bottom=escape(message)), code
 
 
 def login_required(f):
@@ -27,11 +30,13 @@ def login_required(f):
 
     http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
     """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
             return redirect("/login")
         return f(*args, **kwargs)
+
     return decorated_function
 
 
@@ -123,11 +128,12 @@ def get_userbal(database, userid, table="users"):
     if not isinstance(database, SQL):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
-    
+
     if not isinstance(id, int):
         print("DEBUG:cs50:ID is not an integer")
 
-    result = database.execute("SELECT cash FROM :table WHERE id = :userid", table=table, userid=userid)
+    result = database.execute("SELECT cash FROM :table WHERE id = :userid",
+                              table=table, userid=userid)
 
     return result[0]['cash'] if result else None
 
@@ -193,7 +199,8 @@ def get_stockid(database, symbol):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
 
-    result = database.execute("SELECT id FROM stocks WHERE name = :symbol", symbol=symbol)
+    result = database.execute("SELECT id FROM stocks WHERE name = :symbol",
+                              symbol=symbol)
 
     return result[0]['id'] if result else None
 
@@ -206,7 +213,8 @@ def get_stockname(database, stockid):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
 
-    result = database.execute("SELECT name FROM stocks WHERE id = :stockid", stockid=stockid)
+    result = database.execute("SELECT name FROM stocks WHERE id = :stockid",
+                              stockid=stockid)
 
     return result[0]['name'] if result else None
 
@@ -225,7 +233,8 @@ def get_userstock(database, userid, table="userstocks"):
     if not isinstance(id, int):
         print("DEBUG:cs50:ID is not an integer")
 
-    result = database.execute("SELECT * FROM :table WHERE user_id = :userid", table=table, userid=userid)
+    result = database.execute("SELECT * FROM :table WHERE user_id = :userid",
+                              table=table, userid=userid)
 
     if result:
         # Extract from list
@@ -244,7 +253,9 @@ def get_userstock(database, userid, table="userstocks"):
                 price = usd(price)
             stockid = get_stockid(database, symbol)
             if quantity:
-                stocks.append({'name': symbol, 'quantity': quantity, 'price': price, 'id': stockid})
+                stocks.append(
+                    {'name': symbol, 'quantity': quantity, 'price': price,
+                     'id': stockid})
         return stocks
     return None
 
@@ -258,7 +269,9 @@ def get_history(database, userid):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
 
-    result = database.execute("SELECT trans.id, trans.stock_id, trans.action, trans.price, trans.shares, trans.time, stocks.name FROM transactions AS trans JOIN stocks ON trans.stock_id = stocks.id WHERE user_id = :userid ORDER BY trans.id DESC", userid=userid)
+    result = database.execute(
+        "SELECT trans.id, trans.stock_id, trans.action, trans.price, trans.shares, trans.time, stocks.name FROM transactions AS trans JOIN stocks ON trans.stock_id = stocks.id WHERE user_id = :userid ORDER BY trans.id DESC",
+        userid=userid)
 
     return result if result else None
 
@@ -275,29 +288,35 @@ def trade(database, userid, requestform, action):
     if not isinstance(database, SQL):
         print("DEBUG:cs50:Pass in a valid database instance")
         return None
-    
+
     # Get current balance
     balance = float("{:.2f}".format(get_userbal(database, userid)))
 
     if action.upper() == 'FUND':
         balance = balance + 100
         sitebuilder = request.form.get('buildername').upper()
-        siteauthor = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA', 'UMENZE', 'CHIMA UMENZE']
+        siteauthor = ['CHUMA UMENZE', 'CHUMAUMENZE', 'CHIMA', 'CHUMA',
+                      'UMENZE', 'CHIMA UMENZE']
 
         # Check answer
         if sitebuilder in siteauthor:
             # Update balance
-            database.execute("UPDATE users SET cash = :balance WHERE id = :userid", balance=balance, userid=userid)
-            
-            # Log transaction
-            database.execute("INSERT INTO 'transactions' ('user_id','action','price') VALUES (:userid,:action,:price)", userid=userid, action="FUND", price=100)
+            database.execute(
+                "UPDATE users SET cash = :balance WHERE id = :userid",
+                balance=balance, userid=userid)
 
-            return dict(type='success', text='You just funded your account with $100.00')
+            # Log transaction
+            database.execute(
+                "INSERT INTO 'transactions' ('user_id','action','price') VALUES (:userid,:action,:price)",
+                userid=userid, action="FUND", price=100)
+
+            return dict(type='success',
+                        text='You just funded your account with $100.00')
         else:
             return None
 
     requestform = dict(requestform)
-    
+
     # Quick trade option
     if 'qbuy' in requestform:
         del requestform['qbuy']
@@ -307,8 +326,8 @@ def trade(database, userid, requestform, action):
     # stocks = get_userstock(database, userid)
     stocks = {}
     costs = []
-    
-    for stockid in requestform: #key value in requestform are stockids
+
+    for stockid in requestform:  # key value in requestform are stockids
         stockname = get_stockname(database, stockid)
         if not stockname:
             return dict(type='error', text='Invalid request')
@@ -321,37 +340,50 @@ def trade(database, userid, requestform, action):
             if int(stockquantity) > 0:
                 costs.append(get_price(stockname) * float(stockquantity))
             elif int(stockquantity) < 0:
-                return dict(type='error', text='Shares cannot be negative value')
+                return dict(type='error',
+                            text='Shares cannot be negative value')
     # Total amount of order
     cost = sum(costs)
-    
+
     # Debugging
     print("Balance: {}, Cost: {}".format(balance, cost))
     print("DEBUG:cs50:trade(): {}".format(stocks))
-        
+
     if action.upper() == 'BUY':
 
         if not cost:
-            return dict(type='error', text='Please add the amount of Shares to purchase')
+            return dict(type='error',
+                        text='Please add the amount of Shares to purchase')
         elif balance >= cost:
             # Update balance
             balance = float(balance - cost)
-            database.execute("UPDATE users SET cash = :balance WHERE id = :userid", balance=balance, userid=userid)
-            
+            database.execute(
+                "UPDATE users SET cash = :balance WHERE id = :userid",
+                balance=balance, userid=userid)
+
             for stock in stocks:
                 if stocks[stock]:
                     # Update user's stocks
-                    database.execute("UPDATE userstocks SET {0} = {0} + {1} WHERE user_id = :userid".format(stock, stocks[stock]), userid=userid)
+                    database.execute(
+                        "UPDATE userstocks SET {0} = {0} + {1} WHERE user_id = :userid".format(
+                            stock, stocks[stock]), userid=userid)
 
                     # Log transaction
-                    database.execute("INSERT INTO 'transactions' ('user_id','stock_id','action','price','shares') VALUES (:userid,:stockid,:action,:price,:shares)", userid=userid, stockid=get_stockid(database, stock), action="BUY", price=get_price(stock), shares=stocks[stock])
-            return dict(type='success', text='Stocks Purchased', balance=balance)
+                    database.execute(
+                        "INSERT INTO 'transactions' ('user_id','stock_id','action','price','shares') VALUES (:userid,:stockid,:action,:price,:shares)",
+                        userid=userid, stockid=get_stockid(database, stock),
+                        action="BUY", price=get_price(stock),
+                        shares=stocks[stock])
+            return dict(type='success', text='Stocks Purchased',
+                        balance=balance)
         else:
-            return dict(type='error', text='You balance is insuffient. Reduce the amount of stocks to purchase')
-        
+            return dict(type='error',
+                        text='You balance is insuffient. Reduce the amount of stocks to purchase')
+
     elif action.upper() == 'SELL':
         if not cost:
-            return dict(type='error', text='Please add the amount of Shares to sell')
+            return dict(type='error',
+                        text='Please add the amount of Shares to sell')
         else:
             # Security check - We don't want users selling stocks they don't own
             # Using stocks of users from database
@@ -363,23 +395,35 @@ def trade(database, userid, requestform, action):
                 for i in range(len(userstocks)):
                     if i == len(stocks):
                         break
-                    print(f"line:379:sell():userstocks: {userstocks}, share: {stocks.get(userstocks[0]['name'])}")
+                    print(
+                        f"line:379:sell():userstocks: {userstocks}, share: {stocks.get(userstocks[0]['name'])}")
                     share = stocks.get(userstocks[i]['name'])
                     if share:
                         if int(share) > userstocks[i]['quantity']:
-                            return dict(type='error', text='Quantity of shares to sell exceeds the amount owned')
-                
+                            return dict(type='error',
+                                        text='Quantity of shares to sell exceeds the amount owned')
+
                 # Update balance
                 balance = float(balance + cost)
-                database.execute("UPDATE users SET cash = :balance WHERE id = :userid", balance=balance, userid=userid)
+                database.execute(
+                    "UPDATE users SET cash = :balance WHERE id = :userid",
+                    balance=balance, userid=userid)
                 # Sell shares
                 for stock in stocks:
                     if stocks[stock]:
                         # Update user's stocks
-                        database.execute("UPDATE userstocks SET {0} = {0} - {1} WHERE user_id = :userid".format(stock, stocks[stock]), userid=userid)
+                        database.execute(
+                            "UPDATE userstocks SET {0} = {0} - {1} WHERE user_id = :userid".format(
+                                stock, stocks[stock]), userid=userid)
 
                         # Log transaction
-                        database.execute("INSERT INTO 'transactions' ('user_id','stock_id','action','price','shares') VALUES (:userid,:stockid,:action,:price,:shares)", userid=userid, stockid=get_stockid(database, stock), action="SELL", price=get_price(stock), shares=stocks[stock])
-                return dict(type='success', text='Stocks Sold', balance=balance)
+                        database.execute(
+                            "INSERT INTO 'transactions' ('user_id','stock_id','action','price','shares') VALUES (:userid,:stockid,:action,:price,:shares)",
+                            userid=userid,
+                            stockid=get_stockid(database, stock),
+                            action="SELL", price=get_price(stock),
+                            shares=stocks[stock])
+                return dict(type='success', text='Stocks Sold',
+                            balance=balance)
     else:
         return None
